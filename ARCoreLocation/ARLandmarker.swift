@@ -59,11 +59,12 @@ public class ARLandmarker: NSObject, ARLandmarkDisplayer {
     private(set) var worldOrigin: CLLocation?
     
     private var landmarks: [ARAnchor: ARLandmark] = [:]
+    private var pendingLandmarkRequests: [(image: UIImage, location: CLLocation, completion: LandmarkCallback?)] = []
     
     /// - parameter view: A view in which to present the scene
     /// - parameter scene: A scene in which to show the AR content
     /// - parameter locationManager: A configured CLLocationManager
-    init(view: ARSKView, scene: InteractiveScene, locationManager: CLLocationManager) {
+    public init(view: ARSKView, scene: InteractiveScene, locationManager: CLLocationManager) {
         self.view = view
         self.scene = scene
         self.locationManager = locationManager
@@ -74,7 +75,7 @@ public class ARLandmarker: NSObject, ARLandmarkDisplayer {
     
     public func addLandmark(image: UIImage, at location: CLLocation, completion: LandmarkCallback?) {
         guard let origin = worldOrigin else {
-            completion?(nil)
+            pendingLandmarkRequests.append((image: image, location: location, completion: completion))
             return
         }
         
@@ -88,6 +89,7 @@ public class ARLandmarker: NSObject, ARLandmarkDisplayer {
     
     public func addLandmark(view: UIView, at location: CLLocation, completion: LandmarkCallback?) {
         guard let image = view.toImage() else {
+            completion?(nil)
             return
         }
         addLandmark(image: image, at: location, completion: completion)
@@ -125,22 +127,38 @@ extension ARLandmarker {
     }
     
     private func updateWorldOrigin(_ origin: CLLocation) {
-        guard captureDeviceAuthorizer.authorizationStatus(for: .video) == .authorized else {
-            return
+        captureDeviceAuthorizer.requestAccess(for: .video) { [weak self] (granted) in
+            guard granted else {
+                return
+            }
+            DispatchQueue.main.async {
+                if self?.worldOrigin == nil {
+                    defer {
+                        self?.addPendingLandmarks()
+                    }
+                }
+                let landmarksCopy = self?.landmarks.values.map({ $0 }) ?? []
+                self?.removeAllLandmarks()
+                
+                // Move the AR World origin
+                let configuration = ARWorldTrackingConfiguration()
+                configuration.worldAlignment = .gravityAndHeading
+                self?.view.session.run(configuration, options: [.resetTracking])
+                self?.worldOrigin = origin
+                
+                // Replace all the landmarks
+                landmarksCopy.forEach({ (landmark) in
+                    self?.addLandmark(image: landmark.image, at: landmark.location, completion: nil)
+                })
+            }
         }
-        let landmarksCopy = landmarks.values.map({ $0 })
-        removeAllLandmarks()
-        
-        // Move the AR World origin
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.worldAlignment = .gravityAndHeading
-        view.session.run(configuration, options: [.resetTracking])
-        worldOrigin = origin
-        
-        // Replace all the landmarks
-        landmarksCopy.forEach({ (landmark) in
-            addLandmark(image: landmark.image, at: landmark.location, completion: nil)
-        })
+    }
+    
+    private func addPendingLandmarks() {
+        for landmarkRequest in pendingLandmarkRequests {
+            addLandmark(image: landmarkRequest.image, at: landmarkRequest.location, completion: landmarkRequest.completion)
+        }
+        pendingLandmarkRequests = []
     }
     
     /// Create the matrix that transforms `location` to `landmark`.
@@ -279,7 +297,7 @@ extension ARLandmarker: InteractiveSceneDelegate {
 }
 
 public protocol AVCaptureDeviceAuthorizer {
-    static func authorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus
+    static func requestAccess(for mediaType: AVMediaType, completionHandler handler: @escaping (Bool) -> Void)
 }
 
 extension AVCaptureDevice: AVCaptureDeviceAuthorizer { }

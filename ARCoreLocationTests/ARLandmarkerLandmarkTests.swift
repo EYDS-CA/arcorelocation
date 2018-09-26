@@ -193,7 +193,7 @@ class ARLandmarkerLandmarkTests: XCTestCase {
 }
 
 struct MockCaptureDeviceAuthorizer: AVCaptureDeviceAuthorizer {
-    static func authorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus {
-        return .authorized
+    static func requestAccess(for mediaType: AVMediaType, completionHandler handler: @escaping (Bool) -> Void) {
+        handler(true)
     }
 }

@@ -12,9 +12,9 @@ import UIKit
 /// A representation of a landmark in an AR World
 public struct ARLandmark {
     /// The displayable image
-    var image: UIImage
+    public var image: UIImage
     /// The real-world location where the landmark is displayed
-    var location: CLLocation
+    public var location: CLLocation
     /// The id of the landmark in the AR World
-    var id: UUID
+    public var id: UUID
 }
