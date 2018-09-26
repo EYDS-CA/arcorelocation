@@ -132,11 +132,6 @@ extension ARLandmarker {
                 return
             }
             DispatchQueue.main.async {
-                if self?.worldOrigin == nil {
-                    defer {
-                        self?.addPendingLandmarks()
-                    }
-                }
                 let landmarksCopy = self?.landmarks.values.map({ $0 }) ?? []
                 self?.removeAllLandmarks()
                 
@@ -147,6 +142,7 @@ extension ARLandmarker {
                 self?.worldOrigin = origin
                 
                 // Replace all the landmarks
+                self?.addPendingLandmarks()
                 landmarksCopy.forEach({ (landmark) in
                     self?.addLandmark(image: landmark.image, at: landmark.location, completion: nil)
                 })
