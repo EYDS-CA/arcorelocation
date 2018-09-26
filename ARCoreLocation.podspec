@@ -11,18 +11,18 @@ Pod::Spec.new do |s|
                 at real-world coordinates.
                    DESC
 
-  s.homepage     = "https://github.com/freshskyler/arcorelocation"
+  s.homepage     = "https://github.com/FreshworksStudio/arcorelocation"
 
   s.license      = { :type => "MIT", :file => "LICENSE" }
 
   s.author       = { "Skyler Smith" => "skyler@freshworks.io" }
 
-  s.source       = { :git => "https://github.com/freshskyler/arcorelocation.git",
+  s.source       = { :git => "https://github.com/FreshworksStudio/arcorelocation.git",
                      :tag => "#{s.version}" }
 
   s.source_files  = "ARCoreLocation/**/*.{swift}"
 
-  s.resources = "ARCoreLocation/**/*.{png,jpeg,jpg,storyboard,xib,xcassets}"
+#s.resources = "ARCoreLocation/**/*.{png,jpeg,jpg,storyboard,xib,xcassets}"
 
   s.frameworks = "UIKit", "ARKit", "CoreLocation", "GLKit"
 
