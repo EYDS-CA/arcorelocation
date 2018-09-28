@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios
   s.ios.deployment_target = '11.0'
   s.name         = "ARCoreLocation"
-  s.version      = "0.1.2"
+  s.version      = "0.1.3"
   s.summary      = "Place AR landmarks on real-world locations."
 
   s.description  = <<-DESC
