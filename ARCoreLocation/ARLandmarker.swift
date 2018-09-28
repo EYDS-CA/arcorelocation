@@ -222,14 +222,15 @@ extension ARLandmarker {
     ///
     /// Note: Since the anchorNodes are being shown/hid, and not the landmark nodes, this will not compete with the showing/hiding for overlapping nodes.
     /// However, a landmarkNode who's parent anchorNode is hidden will, of course, be hidden regardless of the overlapping state.
-    private func hideLandmarksOutsideVisibleRange(currentLocation: CLLocation) {
-        for (anchor, landmark) in landmarks {
-            if let anchorNode = view.node(for: anchor) {
-                let distance = currentLocation.distance(from: landmark.location)
-                anchorNode.isHidden = distance < minumumVisibleDistance || distance > maximumVisibleDistance
-            }
-        }
-    }
+    //    private func hideLandmarksOutsideVisibleRange(currentLocation: CLLocation) {
+    //        for (anchor, landmark) in landmarks {
+    //            if let anchorNode = view.node(for: anchor) {
+    //                let distance = currentLocation.distance(from: landmark.location)
+    //                anchorNode.isHidden = distance < minumumVisibleDistance || distance > maximumVisibleDistance
+    //            }
+    //        }
+    //    }
+    
 }
 
 extension ARLandmarker: ARSKViewDelegate {
@@ -250,11 +251,14 @@ extension ARLandmarker: ARSKViewDelegate {
         // Override this behavior by inverting the scale computed by ARKit
         let arKitInverseScale = 1 / abs(node.yScale)
         let distance = worldOrigin?.distance(from: landmark.location) ?? 0
-        node.zPosition = CGFloat(1 / distance)
+        node.zPosition = CGFloat(1.0 / distance)
         let scaleRange = 1 - minViewScale
         let distanceRatio = CGFloat(max(maxViewScaleDistance - distance, 0.0) / maxViewScaleDistance)
         let scale = ((distanceRatio * scaleRange) + minViewScale) * arKitInverseScale
         landmarkNode.setScale(scale)
+        if distance < minumumVisibleDistance || distance > maximumVisibleDistance {
+            landmarkNode.isHidden = true
+        }
     }
 }
 
@@ -264,7 +268,6 @@ extension ARLandmarker: CLLocationManagerDelegate {
             if worldOrigin == nil || abs(worldOrigin!.distance(from: location)) > worldRecenteringThreshold || scene.children.count != currentLandmarks.count {
                 updateWorldOrigin(location)
             }
-            hideLandmarksOutsideVisibleRange(currentLocation: location)
         }
     }
     
@@ -298,28 +301,39 @@ extension ARLandmarker: InteractiveSceneDelegate {
     }
     
     func interactiveScene(_ scene: InteractiveScene, hasIntersectingNodes intersecting: [[SKNode]], notIntersecting independents: [SKNode], atGeneration generation: UInt) {
+        func isRendered(_ node: SKNode) -> Bool {
+            let distanceAway = distance(node)
+            return distanceAway >= minumumVisibleDistance && distanceAway <= maximumVisibleDistance
+        }
+        func distance(_ node: SKNode) -> CLLocationDistance {
+            var distance: Double = 0
+            if let origin = worldOrigin, let anchorNode = anchorNode(for: node, at: generation), let anchor = view.anchor(for: anchorNode), let landmark = landmarks[anchor] {
+                distance = origin.distance(from: landmark.location)
+            }
+            return distance
+        }
         switch overlappingLandmarksStrategy {
         case .showAll:
-            intersecting.flatMap({ $0 }).forEach({ $0.isHidden = false })
-            independents.forEach({ $0.isHidden = false })
+            intersecting.flatMap({ $0 }).filter({ isRendered($0) }).forEach({ $0.isHidden = false })
+            independents.filter({ isRendered($0) }).forEach({ $0.isHidden = false })
         case .showNearest:
             intersecting.forEach { (nodes) in
-                let sorted = nodes.filter({ anchorNode(for: $0, at: generation)?.isHidden != true  }).sorted(by: { $0.zPosition >= $1.zPosition })
+                let sorted = nodes.filter({ isRendered($0) }).sorted(by: { distance($0) <= distance($1) })
                 sorted.forEach({ $0.isHidden = true })
                 sorted.first?.isHidden = false
             }
-            independents.forEach({ $0.isHidden = false })
+            independents.filter({ isRendered($0) }).forEach({ $0.isHidden = false })
         case .showFarthest:
             intersecting.forEach { (nodes) in
-                let sorted = nodes.filter({ anchorNode(for: $0, at: generation)?.isHidden != true  }).sorted(by: { $0.zPosition >= $1.zPosition })
+                let sorted = nodes.filter({ isRendered($0) }).sorted(by: { distance($0) <= distance($1) })
                 sorted.forEach({ $0.isHidden = true })
                 sorted.last?.isHidden = false
             }
-            independents.forEach({ $0.isHidden = false })
+            independents.filter({ isRendered($0) }).forEach({ $0.isHidden = false })
         case .custom(let callback):
             let arLandmarks = intersecting.map { (nodes) -> [ARLandmark] in
                 return nodes.compactMap({ (node) -> ARLandmark? in
-                    if let anchorNode = anchorNode(for: node, at: generation), !anchorNode.isHidden, let anchor = view.anchor(for: anchorNode), let landmark = landmarks[anchor] {
+                    if isRendered(node), let anchorNode = anchorNode(for: node, at: generation), let anchor = view.anchor(for: anchorNode), let landmark = landmarks[anchor] {
                         return landmark
                     } else {
                         return nil
@@ -327,7 +341,7 @@ extension ARLandmarker: InteractiveSceneDelegate {
                 })
             }
             let freeLandmarks = independents.compactMap { (node) -> ARLandmark? in
-                if let anchorNode = anchorNode(for: node, at: generation), !anchorNode.isHidden, let anchor = view.anchor(for: anchorNode), let landmark = landmarks[anchor] {
+                if isRendered(node), let anchorNode = anchorNode(for: node, at: generation), let anchor = view.anchor(for: anchorNode), let landmark = landmarks[anchor] {
                     return landmark
                 } else {
                     return nil
