@@ -217,20 +217,6 @@ extension ARLandmarker {
             }
         }
     }
-    
-    /// Show/Hide landmarks based on if they are in the visible range.
-    ///
-    /// Note: Since the anchorNodes are being shown/hid, and not the landmark nodes, this will not compete with the showing/hiding for overlapping nodes.
-    /// However, a landmarkNode who's parent anchorNode is hidden will, of course, be hidden regardless of the overlapping state.
-    //    private func hideLandmarksOutsideVisibleRange(currentLocation: CLLocation) {
-    //        for (anchor, landmark) in landmarks {
-    //            if let anchorNode = view.node(for: anchor) {
-    //                let distance = currentLocation.distance(from: landmark.location)
-    //                anchorNode.isHidden = distance < minumumVisibleDistance || distance > maximumVisibleDistance
-    //            }
-    //        }
-    //    }
-    
 }
 
 extension ARLandmarker: ARSKViewDelegate {
