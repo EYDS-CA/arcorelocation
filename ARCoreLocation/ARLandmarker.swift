@@ -217,6 +217,19 @@ extension ARLandmarker {
             }
         }
     }
+    
+    /// Show/Hide landmarks based on if they are in the visible range.
+    ///
+    /// Note: Since the anchorNodes are being shown/hid, and not the landmark nodes, this will not compete with the showing/hiding for overlapping nodes.
+    /// However, a landmarkNode who's parent anchorNode is hidden will, of course, be hidden regardless of the overlapping state.
+    private func hideLandmarksOutsideVisibleRange(currentLocation: CLLocation) {
+        for (anchor, landmark) in landmarks {
+            if let anchorNode = view.node(for: anchor) {
+                let distance = currentLocation.distance(from: landmark.location)
+                anchorNode.isHidden = distance < minumumVisibleDistance || distance > maximumVisibleDistance
+            }
+        }
+    }
 }
 
 extension ARLandmarker: ARSKViewDelegate {
@@ -251,6 +264,7 @@ extension ARLandmarker: CLLocationManagerDelegate {
             if worldOrigin == nil || abs(worldOrigin!.distance(from: location)) > worldRecenteringThreshold || scene.children.count != currentLandmarks.count {
                 updateWorldOrigin(location)
             }
+            hideLandmarksOutsideVisibleRange(currentLocation: location)
         }
     }
     
@@ -290,14 +304,14 @@ extension ARLandmarker: InteractiveSceneDelegate {
             independents.forEach({ $0.isHidden = false })
         case .showNearest:
             intersecting.forEach { (nodes) in
-                let sorted = nodes.sorted(by: { $0.zPosition >= $1.zPosition })
+                let sorted = nodes.filter({ anchorNode(for: $0, at: generation)?.isHidden != true  }).sorted(by: { $0.zPosition >= $1.zPosition })
                 sorted.forEach({ $0.isHidden = true })
                 sorted.first?.isHidden = false
             }
             independents.forEach({ $0.isHidden = false })
         case .showFarthest:
             intersecting.forEach { (nodes) in
-                let sorted = nodes.sorted(by: { $0.zPosition >= $1.zPosition })
+                let sorted = nodes.filter({ anchorNode(for: $0, at: generation)?.isHidden != true  }).sorted(by: { $0.zPosition >= $1.zPosition })
                 sorted.forEach({ $0.isHidden = true })
                 sorted.last?.isHidden = false
             }
@@ -305,7 +319,7 @@ extension ARLandmarker: InteractiveSceneDelegate {
         case .custom(let callback):
             let arLandmarks = intersecting.map { (nodes) -> [ARLandmark] in
                 return nodes.compactMap({ (node) -> ARLandmark? in
-                    if let anchorNode = anchorNode(for: node, at: generation), let anchor = view.anchor(for: anchorNode), let landmark = landmarks[anchor] {
+                    if let anchorNode = anchorNode(for: node, at: generation), !anchorNode.isHidden, let anchor = view.anchor(for: anchorNode), let landmark = landmarks[anchor] {
                         return landmark
                     } else {
                         return nil
@@ -313,7 +327,7 @@ extension ARLandmarker: InteractiveSceneDelegate {
                 })
             }
             let freeLandmarks = independents.compactMap { (node) -> ARLandmark? in
-                if let anchorNode = anchorNode(for: node, at: generation), let anchor = view.anchor(for: anchorNode), let landmark = landmarks[anchor] {
+                if let anchorNode = anchorNode(for: node, at: generation), !anchorNode.isHidden, let anchor = view.anchor(for: anchorNode), let landmark = landmarks[anchor] {
                     return landmark
                 } else {
                     return nil
