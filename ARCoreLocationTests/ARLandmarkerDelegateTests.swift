@@ -363,15 +363,15 @@ class MockARSession: ARSession {
     }
 }
 
-class MockLandmarkerDelegate: ARLandmarkDisplayerDelegate {
+class MockLandmarkerDelegate: ARLandmarkerDelegate {
     var tappedLandmark: ARLandmark?
     var error: Error?
     
-    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarkDisplayer, didTap landmark: ARLandmark) {
+    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didTap landmark: ARLandmark) {
         tappedLandmark = landmark
     }
     
-    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarkDisplayer, didFailWithError error: Error) {
+    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didFailWithError error: Error) {
         self.error = error
     }
 }

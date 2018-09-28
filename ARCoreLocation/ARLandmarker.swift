@@ -9,7 +9,18 @@
 import ARKit
 import CoreLocation
 
-public class ARLandmarker: NSObject, ARLandmarkDisplayer {
+public protocol ARLandmarkerDelegate: class {
+    /// Called when the user taps an ARLandmark
+    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didTap landmark: ARLandmark) -> Void
+    
+    /// Called when something causes the landmark displayer to fail
+    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didFailWithError error: Error) -> Void
+}
+
+public class ARLandmarker: NSObject {
+    /// A callback to indicate when the addition of an ARLandmark has finished processing
+    /// - parameter landmark: The data representing the landmark in the AR World
+    public typealias LandmarkCallback = (_ landmark: ARLandmark?) -> Void
     /// The distance, in meters, the device can travel away from the last world origin before a new world origin is calculated. It is a programmer error to set this to more than 90. Defaults to 10. Recommended range is 5 - 30.
     public var worldRecenteringThreshold: Double = 10
     
@@ -45,7 +56,7 @@ public class ARLandmarker: NSObject, ARLandmarkDisplayer {
     public let locationManager: CLLocationManager
     
     /// The object to receive updates about the landmarker's state, including errors.
-    public var delegate: ARLandmarkDisplayerDelegate?
+    public var delegate: ARLandmarkerDelegate?
     
     /// The object used to check the AVCaptureDevice authorization status.
     public var captureDeviceAuthorizer: AVCaptureDeviceAuthorizer.Type = AVCaptureDevice.self
@@ -73,6 +84,10 @@ public class ARLandmarker: NSObject, ARLandmarkDisplayer {
         configureLocationManager()
     }
     
+    /// Add an image into the AR World
+    /// - parameter image: The image to add to the AR World
+    /// - parameter location: The real-world location at which the image should be displayed
+    /// - parameter completion: Called when the view has been added.
     public func addLandmark(image: UIImage, at location: CLLocation, completion: LandmarkCallback?) {
         guard let origin = worldOrigin else {
             pendingLandmarkRequests.append((image: image, location: location, completion: completion))
@@ -80,13 +95,17 @@ public class ARLandmarker: NSObject, ARLandmarkDisplayer {
         }
         
         makeARAnchor(from: origin, to: location) { [weak self] anchor in
-            self?.view.session.add(anchor: anchor)
             let landmark = ARLandmark(image: image, location: location, id: anchor.identifier)
             self?.landmarks[anchor] = landmark
+            self?.view.session.add(anchor: anchor)
             completion?(landmark)
         }
     }
     
+    /// Add a view into the AR World.
+    /// - parameter view: The view to add to the AR World. It will be interpreted as a static image.
+    /// - parameter location: The real-world location at which the view should be displayed
+    /// - parameter completion: Called when the view has been added.
     public func addLandmark(view: UIView, at location: CLLocation, completion: LandmarkCallback?) {
         guard let image = view.toImage() else {
             completion?(nil)
@@ -95,6 +114,7 @@ public class ARLandmarker: NSObject, ARLandmarkDisplayer {
         addLandmark(image: image, at: location, completion: completion)
     }
     
+    /// Remove all landmarks from the AR World
     public func removeAllLandmarks() {
         landmarks.keys.forEach({ (anchor) in
             view.node(for: anchor)?.removeFromParent()
@@ -103,6 +123,9 @@ public class ARLandmarker: NSObject, ARLandmarkDisplayer {
         landmarks = [:]
     }
     
+    /// Remove a landmark from the AR World.
+    /// - parameter landmark: The landmark to remove.
+    /// - returns: `true` if the landmark existed and was removed, `false` if the landmark did not exist.
     public func remove(landmark: ARLandmark) -> Bool {
         if let anchor = landmarks.keys.first(where: { $0.identifier == landmark.id }) {
             view.node(for: anchor)?.removeFromParent()
@@ -112,6 +135,23 @@ public class ARLandmarker: NSObject, ARLandmarkDisplayer {
         } else {
             return false
         }
+    }
+    
+    /// Request the `ARLandmarkDisplayer` to start checking for overlapping landmark views, and to use `overlappingLandmarksStrategy` to evaluate them.
+    /// - parameter interval: The seconds between each check
+    public func beginEvaluatingOverlappingLandmarks(atInterval interval: TimeInterval) -> Void {
+        scene.startCheckingForNodeIntersections(atInterval: interval, atGeneration: 1)
+    }
+    
+    /// Request the `ARLandmarkDisplayer` to check for overlapping landmark views, and to use `overlappingLandmarksStrategy` to evaluate them.
+    public func evaluateOverlappingLandmarks() -> Void {
+        let (intersections, independents) = scene.intersectingNodes(searchGeneration: 1)
+        interactiveScene(scene, hasIntersectingNodes: intersections, notIntersecting: independents, atGeneration: 1)
+    }
+    
+    /// Request the `ARLandmarkDisplayer` to stop checking for overlapping landmark views.
+    public func stopEvaluatingOverlappingLandmarks() -> Void {
+        scene.stopCheckingForNodeIntersections()
     }
 }
 
@@ -208,7 +248,7 @@ extension ARLandmarker: ARSKViewDelegate {
 extension ARLandmarker: CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            if worldOrigin == nil || abs(worldOrigin!.distance(from: location)) > worldRecenteringThreshold {
+            if worldOrigin == nil || abs(worldOrigin!.distance(from: location)) > worldRecenteringThreshold || scene.children.count != currentLandmarks.count {
                 updateWorldOrigin(location)
             }
         }

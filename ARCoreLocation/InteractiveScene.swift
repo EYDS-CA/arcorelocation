@@ -30,6 +30,12 @@ public class InteractiveScene: SKScene {
         }
     }
     
+    /// Request the scene to stop checking for node intersections
+    public func stopCheckingForNodeIntersections() {
+        intersectionTimer?.invalidate()
+        intersectionTimer = nil
+    }
+    
     /// Get all the nodes that are intersecting at the given generation
     /// - parameter searchGeneration: The generation of nodes to search. 0 indicates the children of the receiver, 1 indicates the children of those children, etc.
     public func intersectingNodes(searchGeneration: UInt) -> (intersecting: [[SKNode]], independent: [SKNode]) {

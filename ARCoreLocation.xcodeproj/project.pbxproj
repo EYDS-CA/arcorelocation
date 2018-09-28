@@ -17,12 +17,10 @@
 		D423F24421598AC1006C6817 /* CGRect+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4682A0C21559A9A0067FE27 /* CGRect+Ext.swift */; };
 		D423F2462159979D006C6817 /* ARLandmarkerLandmarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D423F2452159979D006C6817 /* ARLandmarkerLandmarkTests.swift */; };
 		D423F247215997B2006C6817 /* ARLandmarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4682A0821557C490067FE27 /* ARLandmarker.swift */; };
-		D423F248215997C7006C6817 /* ARLandmarkDisplayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4682A00215560940067FE27 /* ARLandmarkDisplayer.swift */; };
 		D423F249215997E7006C6817 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4682A04215579260067FE27 /* ARLandmark.swift */; };
 		D423F24A215997F0006C6817 /* OverlappingARLandmarkStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4682A06215579D90067FE27 /* OverlappingARLandmarkStrategy.swift */; };
 		D46829F0215548AF0067FE27 /* ARCoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D46829E6215548AF0067FE27 /* ARCoreLocation.framework */; };
 		D46829F7215548AF0067FE27 /* ARCoreLocation.h in Headers */ = {isa = PBXBuildFile; fileRef = D46829E9215548AF0067FE27 /* ARCoreLocation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D4682A01215560940067FE27 /* ARLandmarkDisplayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4682A00215560940067FE27 /* ARLandmarkDisplayer.swift */; };
 		D4682A03215579040067FE27 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4682A02215579040067FE27 /* UIView+Ext.swift */; };
 		D4682A05215579260067FE27 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4682A04215579260067FE27 /* ARLandmark.swift */; };
 		D4682A07215579D90067FE27 /* OverlappingARLandmarkStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4682A06215579D90067FE27 /* OverlappingARLandmarkStrategy.swift */; };
@@ -54,7 +52,6 @@
 		D46829EA215548AF0067FE27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D46829EF215548AF0067FE27 /* ARCoreLocationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARCoreLocationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46829F6215548AF0067FE27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4682A00215560940067FE27 /* ARLandmarkDisplayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmarkDisplayer.swift; sourceTree = "<group>"; };
 		D4682A02215579040067FE27 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		D4682A04215579260067FE27 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
 		D4682A06215579D90067FE27 /* OverlappingARLandmarkStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlappingARLandmarkStrategy.swift; sourceTree = "<group>"; };
@@ -137,7 +134,6 @@
 				D423F23821596219006C6817 /* Utility */,
 				D46829E9215548AF0067FE27 /* ARCoreLocation.h */,
 				D46829EA215548AF0067FE27 /* Info.plist */,
-				D4682A00215560940067FE27 /* ARLandmarkDisplayer.swift */,
 				D4682A04215579260067FE27 /* ARLandmark.swift */,
 				D4682A06215579D90067FE27 /* OverlappingARLandmarkStrategy.swift */,
 				D4682A0821557C490067FE27 /* ARLandmarker.swift */,
@@ -275,7 +271,6 @@
 				D4682A0921557C490067FE27 /* ARLandmarker.swift in Sources */,
 				D4682A07215579D90067FE27 /* OverlappingARLandmarkStrategy.swift in Sources */,
 				D4682A03215579040067FE27 /* UIView+Ext.swift in Sources */,
-				D4682A01215560940067FE27 /* ARLandmarkDisplayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,7 +281,6 @@
 				D423F24421598AC1006C6817 /* CGRect+Ext.swift in Sources */,
 				D423F247215997B2006C6817 /* ARLandmarker.swift in Sources */,
 				D423F249215997E7006C6817 /* ARLandmark.swift in Sources */,
-				D423F248215997C7006C6817 /* ARLandmarkDisplayer.swift in Sources */,
 				D423F24321598ABF006C6817 /* UIView+Ext.swift in Sources */,
 				D423F24A215997F0006C6817 /* OverlappingARLandmarkStrategy.swift in Sources */,
 				D423F23E215968D7006C6817 /* MatrixTests.swift in Sources */,
@@ -446,6 +440,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = ARCoreLocation/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -473,6 +468,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = ARCoreLocation/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

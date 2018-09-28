@@ -50,7 +50,6 @@ class ARLandmarkerLandmarkTests: XCTestCase {
         // When
         let promise = expectation(description: "addLandmark")
         landmarker.addLandmark(image: image, at: location) { (arLandmark) in
-            
             // Then
             landmark = arLandmark
             XCTAssertNotNil(arLandmark)
