@@ -145,7 +145,7 @@ class ARLandmarkerLandmarkTests: XCTestCase {
     
     func testFailToRemoveLandmark() {
         // Given
-        let landmark = ARLandmark(image: UIImage(), location: CLLocation(latitude: 20, longitude: -54), id: UUID())
+        let landmark = ARLandmark(name: "test", image: UIImage(), location: CLLocation(latitude: 20, longitude: -54), id: UUID())
         
         // When
         let removed = landmarker.remove(landmark: landmark)

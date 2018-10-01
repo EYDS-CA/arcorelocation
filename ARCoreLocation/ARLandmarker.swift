@@ -70,7 +70,7 @@ public class ARLandmarker: NSObject {
     private(set) var worldOrigin: CLLocation?
     
     private var landmarks: [ARAnchor: ARLandmark] = [:]
-    private var pendingLandmarkRequests: [(image: UIImage, location: CLLocation, completion: LandmarkCallback?)] = []
+    private var pendingLandmarkRequests: [(name: String, image: UIImage, location: CLLocation, completion: LandmarkCallback?)] = []
     
     /// - parameter view: A view in which to present the scene
     /// - parameter scene: A scene in which to show the AR content
@@ -88,18 +88,8 @@ public class ARLandmarker: NSObject {
     /// - parameter image: The image to add to the AR World
     /// - parameter location: The real-world location at which the image should be displayed
     /// - parameter completion: Called when the view has been added.
-    public func addLandmark(image: UIImage, at location: CLLocation, completion: LandmarkCallback?) {
-        guard let origin = worldOrigin else {
-            pendingLandmarkRequests.append((image: image, location: location, completion: completion))
-            return
-        }
-        
-        makeARAnchor(from: origin, to: location) { [weak self] anchor in
-            let landmark = ARLandmark(image: image, location: location, id: anchor.identifier)
-            self?.landmarks[anchor] = landmark
-            self?.view.session.add(anchor: anchor)
-            completion?(landmark)
-        }
+    public func addLandmark(name: String = UUID().uuidString, image: UIImage, at location: CLLocation, completion: LandmarkCallback?) {
+        createLandmark(name: name, image: image, at: location, completion: completion)
     }
     
     /// Add a view into the AR World.
@@ -184,15 +174,29 @@ extension ARLandmarker {
                 // Replace all the landmarks
                 self?.addPendingLandmarks()
                 landmarksCopy.forEach({ (landmark) in
-                    self?.addLandmark(image: landmark.image, at: landmark.location, completion: nil)
+                    self?.createLandmark(name: landmark.name, image: landmark.image, at: landmark.location, completion: nil)
                 })
             }
         }
     }
     
+    private func createLandmark(name: String, image: UIImage, at location: CLLocation, completion: LandmarkCallback?) {
+        guard let origin = worldOrigin else {
+            pendingLandmarkRequests.append((name: name, image: image, location: location, completion: completion))
+            return
+        }
+        
+        makeARAnchor(from: origin, to: location) { [weak self] anchor in
+            let landmark = ARLandmark(name: name, image: image, location: location, id: anchor.identifier)
+            self?.landmarks[anchor] = landmark
+            self?.view.session.add(anchor: anchor)
+            completion?(landmark)
+        }
+    }
+    
     private func addPendingLandmarks() {
         for landmarkRequest in pendingLandmarkRequests {
-            addLandmark(image: landmarkRequest.image, at: landmarkRequest.location, completion: landmarkRequest.completion)
+            createLandmark(name: landmarkRequest.name, image: landmarkRequest.image, at: landmarkRequest.location, completion: landmarkRequest.completion)
         }
         pendingLandmarkRequests = []
     }

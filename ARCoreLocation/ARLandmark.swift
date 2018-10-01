@@ -11,10 +11,12 @@ import UIKit
 
 /// A representation of a landmark in an AR World
 public struct ARLandmark {
+    /// The name of this landmark. Landmark names are for convenience, and are never displayed to the user.
+    public let name: String
     /// The displayable image
-    public var image: UIImage
+    public let image: UIImage
     /// The real-world location where the landmark is displayed
-    public var location: CLLocation
+    public let location: CLLocation
     /// The id of the landmark in the AR World
-    public var id: UUID
+    internal let id: UUID
 }
