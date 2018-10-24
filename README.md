@@ -1,7 +1,5 @@
 # ARCoreLocation
 
-njkbninlnljnbui
-
 ## Usage
 
 ```
