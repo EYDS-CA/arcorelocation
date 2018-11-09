@@ -1,6 +1,6 @@
 # ARCoreLocation
 
-ARCoreLocation is a lightweight and configurable iOS framework for displaying AR content at real-world coordinates
+ARCoreLocation is a lightweight and configurable iOS framework for displaying AR content at real-world coordinates.
 
 ## Features:
 • Easily create AR scenes that place AR objects in the real world
@@ -17,7 +17,7 @@ ARCoreLocation is a lightweight and configurable iOS framework for displaying AR
 ### CocoaPods
 Enter this in your Podfile:
 ```Swift
-pod 'ARCoreLocation'
+pod 'ARCoreLocation', '~> 0.1.7'
 ```
 Then run `pod install`. Remember to `import ARCoreLocation` in any file where you want to use it!
 
