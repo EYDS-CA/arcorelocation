@@ -4,8 +4,11 @@ ARCoreLocation is a lightweight and configurable iOS framework for displaying AR
 
 ## Features:
 • Easily create AR scenes that place AR objects in the real world
+
 • Place AR objects at any geographic location without worrying about ARKit's implementation details
+
 • Receive tap events on your AR content
+
 • Receive events when AR content overlaps on-screen
 
 
