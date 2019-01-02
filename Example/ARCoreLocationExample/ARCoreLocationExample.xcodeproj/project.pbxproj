@@ -1,0 +1,502 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D487A81521DD2FF00008EADF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D487A81421DD2FF00008EADF /* AppDelegate.swift */; };
+		D487A81C21DD2FF20008EADF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D487A81B21DD2FF20008EADF /* Assets.xcassets */; };
+		D487A81F21DD2FF20008EADF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D487A81D21DD2FF20008EADF /* LaunchScreen.storyboard */; };
+		D487A83021DD34590008EADF /* ListLandmarksConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D487A82A21DD34590008EADF /* ListLandmarksConfiguration.swift */; };
+		D487A83121DD34590008EADF /* ListLandmarksPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D487A82B21DD34590008EADF /* ListLandmarksPresenter.swift */; };
+		D487A83221DD34590008EADF /* ListLandmarksRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D487A82C21DD34590008EADF /* ListLandmarksRouter.swift */; };
+		D487A83321DD34590008EADF /* ListLandmarksModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D487A82D21DD34590008EADF /* ListLandmarksModels.swift */; };
+		D487A83421DD34590008EADF /* ListLandmarksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D487A82E21DD34590008EADF /* ListLandmarksViewController.swift */; };
+		D487A83521DD34590008EADF /* ListLandmarksInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D487A82F21DD34590008EADF /* ListLandmarksInteractor.swift */; };
+		D487A83721DD346B0008EADF /* ListLandmarksViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D487A83621DD346B0008EADF /* ListLandmarksViewController.storyboard */; };
+		D487A83A21DD34B50008EADF /* StoryboardInstantiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D487A83921DD34B50008EADF /* StoryboardInstantiable.swift */; };
+		D487A83D21DD3A7E0008EADF /* Mountain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D487A83C21DD3A7E0008EADF /* Mountain.swift */; };
+		D487A84121DD403D0008EADF /* ListLandmarksItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = D487A83F21DD403C0008EADF /* ListLandmarksItem.xib */; };
+		D487A84221DD403D0008EADF /* ListLandmarksItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D487A84021DD403D0008EADF /* ListLandmarksItem.swift */; };
+		EB6EF61C8ACB0E3D1C449F25 /* Pods_ARCoreLocationExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D8ECD9D4EB80F1AB7E15EC /* Pods_ARCoreLocationExample.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0927C328E181B04A54856F73 /* Pods-ARCoreLocationExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARCoreLocationExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARCoreLocationExample/Pods-ARCoreLocationExample.release.xcconfig"; sourceTree = "<group>"; };
+		A9F79F4AF4ABE61B1C2FAB65 /* Pods-ARCoreLocationExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARCoreLocationExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARCoreLocationExample/Pods-ARCoreLocationExample.debug.xcconfig"; sourceTree = "<group>"; };
+		D487A81121DD2FF00008EADF /* ARCoreLocationExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARCoreLocationExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D487A81421DD2FF00008EADF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D487A81B21DD2FF20008EADF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D487A81E21DD2FF20008EADF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D487A82021DD2FF20008EADF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D487A82A21DD34590008EADF /* ListLandmarksConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLandmarksConfiguration.swift; sourceTree = "<group>"; };
+		D487A82B21DD34590008EADF /* ListLandmarksPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLandmarksPresenter.swift; sourceTree = "<group>"; };
+		D487A82C21DD34590008EADF /* ListLandmarksRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLandmarksRouter.swift; sourceTree = "<group>"; };
+		D487A82D21DD34590008EADF /* ListLandmarksModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLandmarksModels.swift; sourceTree = "<group>"; };
+		D487A82E21DD34590008EADF /* ListLandmarksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLandmarksViewController.swift; sourceTree = "<group>"; };
+		D487A82F21DD34590008EADF /* ListLandmarksInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLandmarksInteractor.swift; sourceTree = "<group>"; };
+		D487A83621DD346B0008EADF /* ListLandmarksViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ListLandmarksViewController.storyboard; sourceTree = "<group>"; };
+		D487A83921DD34B50008EADF /* StoryboardInstantiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardInstantiable.swift; sourceTree = "<group>"; };
+		D487A83C21DD3A7E0008EADF /* Mountain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mountain.swift; sourceTree = "<group>"; };
+		D487A83F21DD403C0008EADF /* ListLandmarksItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListLandmarksItem.xib; sourceTree = "<group>"; };
+		D487A84021DD403D0008EADF /* ListLandmarksItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListLandmarksItem.swift; sourceTree = "<group>"; };
+		D4D8ECD9D4EB80F1AB7E15EC /* Pods_ARCoreLocationExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARCoreLocationExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D487A80E21DD2FF00008EADF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB6EF61C8ACB0E3D1C449F25 /* Pods_ARCoreLocationExample.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2C24016F1049E80B5AC0C6BB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A9F79F4AF4ABE61B1C2FAB65 /* Pods-ARCoreLocationExample.debug.xcconfig */,
+				0927C328E181B04A54856F73 /* Pods-ARCoreLocationExample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D23D022B68A49F0BC3079BC9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D4D8ECD9D4EB80F1AB7E15EC /* Pods_ARCoreLocationExample.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D487A80821DD2FF00008EADF = {
+			isa = PBXGroup;
+			children = (
+				D487A81321DD2FF00008EADF /* ARCoreLocationExample */,
+				D487A81221DD2FF00008EADF /* Products */,
+				2C24016F1049E80B5AC0C6BB /* Pods */,
+				D23D022B68A49F0BC3079BC9 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		D487A81221DD2FF00008EADF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D487A81121DD2FF00008EADF /* ARCoreLocationExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D487A81321DD2FF00008EADF /* ARCoreLocationExample */ = {
+			isa = PBXGroup;
+			children = (
+				D487A82621DD32D50008EADF /* Common */,
+				D487A82721DD32EA0008EADF /* Scenes */,
+				D487A81B21DD2FF20008EADF /* Assets.xcassets */,
+				D487A81D21DD2FF20008EADF /* LaunchScreen.storyboard */,
+			);
+			path = ARCoreLocationExample;
+			sourceTree = "<group>";
+		};
+		D487A82621DD32D50008EADF /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D487A82821DD341F0008EADF /* Configuration */,
+				D487A83821DD34A50008EADF /* API Simplification */,
+				D487A83B21DD3A4D0008EADF /* Entities */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		D487A82721DD32EA0008EADF /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				D487A82921DD343E0008EADF /* List Landmarks */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		D487A82821DD341F0008EADF /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				D487A82021DD2FF20008EADF /* Info.plist */,
+				D487A81421DD2FF00008EADF /* AppDelegate.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
+		D487A82921DD343E0008EADF /* List Landmarks */ = {
+			isa = PBXGroup;
+			children = (
+				D487A82A21DD34590008EADF /* ListLandmarksConfiguration.swift */,
+				D487A82B21DD34590008EADF /* ListLandmarksPresenter.swift */,
+				D487A82C21DD34590008EADF /* ListLandmarksRouter.swift */,
+				D487A82D21DD34590008EADF /* ListLandmarksModels.swift */,
+				D487A82E21DD34590008EADF /* ListLandmarksViewController.swift */,
+				D487A82F21DD34590008EADF /* ListLandmarksInteractor.swift */,
+				D487A83E21DD402E0008EADF /* UI Elements */,
+			);
+			path = "List Landmarks";
+			sourceTree = "<group>";
+		};
+		D487A83821DD34A50008EADF /* API Simplification */ = {
+			isa = PBXGroup;
+			children = (
+				D487A83921DD34B50008EADF /* StoryboardInstantiable.swift */,
+			);
+			path = "API Simplification";
+			sourceTree = "<group>";
+		};
+		D487A83B21DD3A4D0008EADF /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				D487A83C21DD3A7E0008EADF /* Mountain.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		D487A83E21DD402E0008EADF /* UI Elements */ = {
+			isa = PBXGroup;
+			children = (
+				D487A83621DD346B0008EADF /* ListLandmarksViewController.storyboard */,
+				D487A84021DD403D0008EADF /* ListLandmarksItem.swift */,
+				D487A83F21DD403C0008EADF /* ListLandmarksItem.xib */,
+			);
+			path = "UI Elements";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D487A81021DD2FF00008EADF /* ARCoreLocationExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D487A82321DD2FF20008EADF /* Build configuration list for PBXNativeTarget "ARCoreLocationExample" */;
+			buildPhases = (
+				C312F69EF7F00A4057E9BFC2 /* [CP] Check Pods Manifest.lock */,
+				D487A80D21DD2FF00008EADF /* Sources */,
+				D487A80E21DD2FF00008EADF /* Frameworks */,
+				D487A80F21DD2FF00008EADF /* Resources */,
+				6EF94B1AA394FC57289F02EC /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ARCoreLocationExample;
+			productName = ARCoreLocationExample;
+			productReference = D487A81121DD2FF00008EADF /* ARCoreLocationExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D487A80921DD2FF00008EADF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Freshworks Studio Inc.";
+				TargetAttributes = {
+					D487A81021DD2FF00008EADF = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = D487A80C21DD2FF00008EADF /* Build configuration list for PBXProject "ARCoreLocationExample" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D487A80821DD2FF00008EADF;
+			productRefGroup = D487A81221DD2FF00008EADF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D487A81021DD2FF00008EADF /* ARCoreLocationExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D487A80F21DD2FF00008EADF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D487A84121DD403D0008EADF /* ListLandmarksItem.xib in Resources */,
+				D487A81F21DD2FF20008EADF /* LaunchScreen.storyboard in Resources */,
+				D487A81C21DD2FF20008EADF /* Assets.xcassets in Resources */,
+				D487A83721DD346B0008EADF /* ListLandmarksViewController.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6EF94B1AA394FC57289F02EC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ARCoreLocationExample/Pods-ARCoreLocationExample-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ARCoreLocation/ARCoreLocation.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARCoreLocation.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARCoreLocationExample/Pods-ARCoreLocationExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C312F69EF7F00A4057E9BFC2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ARCoreLocationExample-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D487A80D21DD2FF00008EADF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D487A83421DD34590008EADF /* ListLandmarksViewController.swift in Sources */,
+				D487A83D21DD3A7E0008EADF /* Mountain.swift in Sources */,
+				D487A83021DD34590008EADF /* ListLandmarksConfiguration.swift in Sources */,
+				D487A83121DD34590008EADF /* ListLandmarksPresenter.swift in Sources */,
+				D487A83221DD34590008EADF /* ListLandmarksRouter.swift in Sources */,
+				D487A83321DD34590008EADF /* ListLandmarksModels.swift in Sources */,
+				D487A83521DD34590008EADF /* ListLandmarksInteractor.swift in Sources */,
+				D487A83A21DD34B50008EADF /* StoryboardInstantiable.swift in Sources */,
+				D487A84221DD403D0008EADF /* ListLandmarksItem.swift in Sources */,
+				D487A81521DD2FF00008EADF /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D487A81D21DD2FF20008EADF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D487A81E21DD2FF20008EADF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D487A82121DD2FF20008EADF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D487A82221DD2FF20008EADF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D487A82421DD2FF20008EADF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A9F79F4AF4ABE61B1C2FAB65 /* Pods-ARCoreLocationExample.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TCH45SXZ69;
+				INFOPLIST_FILE = ARCoreLocationExample/Common/Configuration/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.freshworks.ARCoreLocationExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D487A82521DD2FF20008EADF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0927C328E181B04A54856F73 /* Pods-ARCoreLocationExample.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TCH45SXZ69;
+				INFOPLIST_FILE = ARCoreLocationExample/Common/Configuration/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.freshworks.ARCoreLocationExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D487A80C21DD2FF00008EADF /* Build configuration list for PBXProject "ARCoreLocationExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D487A82121DD2FF20008EADF /* Debug */,
+				D487A82221DD2FF20008EADF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D487A82321DD2FF20008EADF /* Build configuration list for PBXNativeTarget "ARCoreLocationExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D487A82421DD2FF20008EADF /* Debug */,
+				D487A82521DD2FF20008EADF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D487A80921DD2FF00008EADF /* Project object */;
+}

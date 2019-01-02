@@ -1,0 +1,6 @@
+framework module ARCoreLocation {
+  umbrella header "ARCoreLocation-umbrella.h"
+
+  export *
+  module * { export * }
+}
