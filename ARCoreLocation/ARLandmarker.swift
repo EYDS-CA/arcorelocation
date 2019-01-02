@@ -96,12 +96,12 @@ public class ARLandmarker: NSObject {
     /// - parameter view: The view to add to the AR World. It will be interpreted as a static image.
     /// - parameter location: The real-world location at which the view should be displayed
     /// - parameter completion: Called when the view has been added.
-    public func addLandmark(view: UIView, at location: CLLocation, completion: LandmarkCallback?) {
+    public func addLandmark(name: String = UUID().uuidString, view: UIView, at location: CLLocation, completion: LandmarkCallback?) {
         guard let image = view.toImage() else {
             completion?(nil)
             return
         }
-        addLandmark(image: image, at: location, completion: completion)
+        addLandmark(name: name, image: image, at: location, completion: completion)
     }
     
     /// Remove all landmarks from the AR World
