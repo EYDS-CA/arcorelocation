@@ -8,6 +8,6 @@ target 'ARCoreLocationExample' do
   # Pods for ARCoreLocationExample
 
   # AR + CoreLocation
-  pod 'ARCoreLocation', '~> 0.1.7'
+  pod 'ARCoreLocation', '~> 0.1.8'
 
 end

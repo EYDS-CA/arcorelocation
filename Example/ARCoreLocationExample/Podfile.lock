@@ -1,16 +1,16 @@
 PODS:
-  - ARCoreLocation (0.1.7)
+  - ARCoreLocation (0.1.8)
 
 DEPENDENCIES:
-  - ARCoreLocation (~> 0.1.7)
+  - ARCoreLocation (~> 0.1.8)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - ARCoreLocation
 
 SPEC CHECKSUMS:
-  ARCoreLocation: d6edfddaf9dc38a88d854e32b0db10104a941c08
+  ARCoreLocation: 657adf1ce2951b411684ffccf14c221bbe0e10ba
 
-PODFILE CHECKSUM: a4c31e30fb2a8892757b7069ceb0e9a332a1f796
+PODFILE CHECKSUM: 835be3050aa6c1f41fe235945f232514dd429187
 
 COCOAPODS: 1.5.3

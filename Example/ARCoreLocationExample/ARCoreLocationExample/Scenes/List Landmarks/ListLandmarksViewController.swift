@@ -23,8 +23,6 @@ class ListLandmarksViewController: UIViewController {
     var router: ListLandmarksRouteRequestable?
     
     var landmarker: ARLandmarker!
-    /// Map from ARLandmark names to Indices
-    var displayedLandmarks: [String: Int] = [:]
     
     // MARK: View lifecycle
     
@@ -74,19 +72,14 @@ extension ListLandmarksViewController: ListLandmarksDisplayer {
         for landmark in viewModel.landmarks {
             let markView = ListLandmarksItem.fromNib()
             markView.set(name: landmark.name, altitude: landmark.altitude)
-            landmarker.addLandmark(view: markView, at: landmark.location) { [weak self] (arLandmark) in
-                guard let mark = arLandmark else {
-                    return
-                }
-                self?.displayedLandmarks[mark.name] = landmark.index
-            }
+            landmarker.addLandmark(name: "\(landmark.index)", view: markView, at: landmark.location, completion: nil)
         }
     }
 }
 
 extension ListLandmarksViewController: ARLandmarkerDelegate {
     func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didTap landmark: ARLandmark) {
-        guard let index = displayedLandmarks[landmark.name] else {
+        guard let index = Int(landmark.name) else {
             return
         }
         router?.showLandmark(withIndex: index)
