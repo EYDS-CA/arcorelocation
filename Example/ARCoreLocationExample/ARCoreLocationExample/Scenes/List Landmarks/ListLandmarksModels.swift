@@ -25,7 +25,7 @@ enum ListLandmarks {
         }
         
         struct ViewModel {
-            struct Landmark {
+            struct Landmark: Hashable {
                 let name: String
 //                let altitude: String
                 let location: CLLocation

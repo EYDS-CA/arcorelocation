@@ -19,13 +19,18 @@ protocol ListLandmarksRouteRequestable {
 }
 
 class ListLandmarksViewController: UIViewController {
+    // MARK: Dependencies
     var interactor: ListLandmarksRequestable?
     var router: ListLandmarksRouteRequestable?
-    
     var landmarker: ARLandmarker!
+    var reusableMarker = ListLandmarksItem.fromNib()
+    
+    // MARK: Constants
+    let landmarkKey: String = "model"
+    
+    // MARK: State
     
     // MARK: View lifecycle
-    var reusableMarker = ListLandmarksItem.fromNib()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +71,10 @@ class ListLandmarksViewController: UIViewController {
         landmarker.view.frame = view.bounds
         landmarker.scene.size = view.bounds.size
     }
+    
+    private func format(distance: CLLocationDistance) -> String {
+        return String(format: "%.2f km away", distance / 1000)
+    }
 }
 
 extension ListLandmarksViewController: ListLandmarksDisplayer {
@@ -74,27 +83,37 @@ extension ListLandmarksViewController: ListLandmarksDisplayer {
             let user = landmarker.locationManager.location!
             let markView = reusableMarker
             let location = CLLocation(coordinate: landmark.location.coordinate, altitude: user.altitude + 5, horizontalAccuracy: 1, verticalAccuracy: 1, timestamp: Date())
-            markView.set(name: landmark.name)
-            landmarker.addLandmark(name: "\(landmark.index)", view: markView, at: location, completion: nil)
+            markView.set(name: landmark.name, detail: format(distance: user.distance(from: landmark.location)))
+            landmarker.addLandmark(userInfo: [landmarkKey: landmark], view: markView, at: location, completion: nil)
         }
     }
 }
 
 extension ListLandmarksViewController: ARLandmarkerDelegate {
     func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didTap landmark: ARLandmark) {
-        guard let index = Int(landmark.name) else {
+        guard let index = landmark.model?.index else {
             return
         }
         router?.showLandmark(withIndex: index)
     }
     
-    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark) -> UIView? {
+    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark, for location: CLLocation) -> UIView? {
+        guard let model = landmark.model else {
+            return nil
+        }
         let markView = reusableMarker
-        markView.set(name: "\(landmark.name) updated")
+        markView.set(name: model.name, detail: format(distance: location.distance(from: landmark.location)))
+        
         return markView
     }
     
     func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didFailWithError error: Error) {
         print("Failed! Error: \(error)")
+    }
+}
+
+extension ARLandmark {
+    var model: ListLandmarks.FetchLandmarks.ViewModel.Landmark? {
+        return userInfo["model"] as? ListLandmarks.FetchLandmarks.ViewModel.Landmark
     }
 }

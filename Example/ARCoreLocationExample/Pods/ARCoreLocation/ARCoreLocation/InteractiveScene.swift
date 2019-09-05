@@ -65,7 +65,6 @@ public class InteractiveScene: SKScene {
         return (intersecting: joinedIntersections.map({ (nodeSet) -> [SKNode] in nodeSet.map({ $0 }) }), independent: Array(notIntersecting))
     }
     
-    
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         var tappedNodes: [SKNode] = []
         var handled = Set<UITouch>()

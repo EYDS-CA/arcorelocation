@@ -15,23 +15,23 @@ public protocol ARLandmarkerDelegate: class {
     
     /// Called whenever the landmarker is about to display an updated landmark.
     ///
-    /// If `landmarkDisplayer(_:willUpdate:) -> UIView?` is implemented, this is given precendence over that method.
+    /// If `landmarkDisplayer(_:willUpdate:for:) -> UIView?` is implemented, this is given precendence over that method.
     ///
     /// - Parameters:
     ///   - landmarkDisplayer: The landmark displayer.
     ///   - landmark: The landmark being updated.
     /// - Returns: A new image to display at the landmark, or `nil` to keep the existing image.
-    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark) -> UIImage?
+    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark, for location: CLLocation) -> UIImage?
     
     /// Called whenever the landmarker is about to display an updated landmark.
     ///
-    /// If `landmarkDisplayer(_:willUpdate:) -> UIImage?` is implemented, it is given precendence over this method.
+    /// If `landmarkDisplayer(_:willUpdate:for:) -> UIImage?` is implemented, it is given precendence over this method.
     ///
     /// - Parameters:
     ///   - landmarkDisplayer: The landmark displayer.
     ///   - landmark: The landmark being updated.
     /// - Returns: A new view to display at the landmark, or `nil` to keep the existing view.
-    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark) -> UIView?
+    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark, for location: CLLocation) -> UIView?
     
     /// Called when something causes the landmark displayer to fail
     func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didFailWithError error: Error) -> Void
@@ -39,8 +39,8 @@ public protocol ARLandmarkerDelegate: class {
 
 public extension ARLandmarkerDelegate {
     func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didTap landmark: ARLandmark) -> Void { }
-    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark) -> UIImage? { return nil }
-    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark) -> UIView? { return nil }
+    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark, for location: CLLocation) -> UIImage? { return nil }
+    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark, for location: CLLocation) -> UIView? { return nil }
 }
 
 public class ARLandmarker: NSObject {
@@ -102,7 +102,7 @@ public class ARLandmarker: NSObject {
     private(set) var worldOrigin: CLLocation?
     
     private var landmarks: [ARAnchor: ARLandmark] = [:]
-    private var pendingLandmarkRequests: [(name: String, image: UIImage, location: CLLocation, completion: LandmarkCallback?)] = []
+    private var pendingLandmarkRequests: [(userInfo: [String: Any], image: UIImage, location: CLLocation, completion: LandmarkCallback?)] = []
     
     /// - parameter view: A view in which to present the scene
     /// - parameter scene: A scene in which to show the AR content
@@ -114,8 +114,8 @@ public class ARLandmarker: NSObject {
         super.init()
         setupView()
         configureLocationManager()
-        view.showsPhysics = true
-        view.showsFPS = true
+//        view.showsPhysics = true
+//        view.showsFPS = true
         scene.physicsWorld.contactDelegate = self
         scene.physicsWorld.gravity = .zero
     }
@@ -124,20 +124,20 @@ public class ARLandmarker: NSObject {
     /// - parameter image: The image to add to the AR World
     /// - parameter location: The real-world location at which the image should be displayed
     /// - parameter completion: Called when the view has been added.
-    public func addLandmark(name: String = UUID().uuidString, image: UIImage, at location: CLLocation, completion: LandmarkCallback?) {
-        createLandmark(name: name, image: image, at: location, completion: completion)
+    public func addLandmark(userInfo: [String: Any] = [:], image: UIImage, at location: CLLocation, completion: LandmarkCallback?) {
+        createLandmark(userInfo: userInfo, image: image, at: location, completion: completion)
     }
     
     /// Add a view into the AR World.
     /// - parameter view: The view to add to the AR World. It will be interpreted as a static image.
     /// - parameter location: The real-world location at which the view should be displayed
     /// - parameter completion: Called when the view has been added.
-    public func addLandmark(name: String = UUID().uuidString, view: UIView, at location: CLLocation, completion: LandmarkCallback?) {
+    public func addLandmark(userInfo: [String: Any] = [:], view: UIView, at location: CLLocation, completion: LandmarkCallback?) {
         guard let image = view.toImage() else {
             completion?(nil)
             return
         }
-        addLandmark(name: name, image: image, at: location, completion: completion)
+        addLandmark(userInfo: userInfo, image: image, at: location, completion: completion)
     }
     
     /// Remove all landmarks from the AR World
@@ -211,20 +211,20 @@ extension ARLandmarker {
                 // Replace all the landmarks
                 self?.addPendingLandmarks()
                 landmarksCopy.forEach({ (landmark) in
-                    self?.createLandmark(name: landmark.name, image: landmark.image, at: landmark.location, completion: nil)
+                    self?.createLandmark(userInfo: landmark.userInfo, image: landmark.image, at: landmark.location, completion: nil)
                 })
             }
         }
     }
     
-    private func createLandmark(name: String, image: UIImage, at location: CLLocation, completion: LandmarkCallback?) {
+    private func createLandmark(userInfo: [String: Any], image: UIImage, at location: CLLocation, completion: LandmarkCallback?) {
         guard let origin = worldOrigin else {
-            pendingLandmarkRequests.append((name: name, image: image, location: location, completion: completion))
+            pendingLandmarkRequests.append((userInfo: userInfo, image: image, location: location, completion: completion))
             return
         }
         
         makeARAnchor(from: origin, to: location) { [weak self] anchor in
-            let landmark = ARLandmark(name: name, image: image, location: location, id: anchor.identifier)
+            let landmark = ARLandmark(userInfo: userInfo, image: image, location: location, id: anchor.identifier)
             self?.landmarks[anchor] = landmark
             self?.view.session.add(anchor: anchor)
             completion?(landmark)
@@ -233,7 +233,7 @@ extension ARLandmarker {
     
     private func addPendingLandmarks() {
         for landmarkRequest in pendingLandmarkRequests {
-            createLandmark(name: landmarkRequest.name, image: landmarkRequest.image, at: landmarkRequest.location, completion: landmarkRequest.completion)
+            createLandmark(userInfo: landmarkRequest.userInfo, image: landmarkRequest.image, at: landmarkRequest.location, completion: landmarkRequest.completion)
         }
         pendingLandmarkRequests = []
     }
@@ -319,9 +319,9 @@ extension ARLandmarker: CLLocationManagerDelegate {
             
             if lastLandmarkViewUpdateLocation?.distance(from: location) ?? .greatestFiniteMagnitude > minimumDistanceBetweenLandmarkViewUpdates {
                 var image: UIImage?
-                if let newImage: UIImage = self.delegate?.landmarkDisplayer(self, willUpdate: landmark) {
+                if let newImage: UIImage = self.delegate?.landmarkDisplayer(self, willUpdate: landmark, for: location) {
                     image = newImage
-                } else if let newView: UIView = self.delegate?.landmarkDisplayer(self, willUpdate: landmark), let newImage = newView.toImage() {
+                } else if let newView: UIView = self.delegate?.landmarkDisplayer(self, willUpdate: landmark, for: location), let newImage = newView.toImage() {
                     image = newImage
                 }
                 DispatchQueue.global(qos: .userInteractive).async {
@@ -341,6 +341,8 @@ extension ARLandmarker: CLLocationManagerDelegate {
             locationManager.requestWhenInUseAuthorization()
         case .denied, .restricted:
             delegate?.landmarkDisplayer(self, didFailWithError: CLError(.denied))
+        @unknown default:
+            locationManager.requestWhenInUseAuthorization()
         }
     }
     
@@ -424,7 +426,7 @@ extension ARLandmarker: InteractiveSceneDelegate {
 
 extension ARLandmarker: SKPhysicsContactDelegate {
     public func didBegin(_ contact: SKPhysicsContact) {
-        
+        // TODO: Use something like this for landmark collisions.
     }
 }
 
