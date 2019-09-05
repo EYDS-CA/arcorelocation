@@ -10,6 +10,7 @@ import XCTest
 import CoreLocation
 import SpriteKit
 import ARKit
+@testable import ARCoreLocation
 
 class ARLandmarkerDelegateTests: ARLandmarkerLandmarkTests {
 
@@ -47,7 +48,7 @@ class ARLandmarkerDelegateTests: ARLandmarkerLandmarkTests {
         
         // When
         landmarker.view(view, didAdd: node, for: anchor)
-        
+        usleep(10000)
         // Then
         XCTAssertEqual(session.anchors.count, 1)
         XCTAssertEqual(node.children.count, 1)
@@ -82,15 +83,16 @@ class ARLandmarkerDelegateTests: ARLandmarkerLandmarkTests {
             promise.fulfill()
         }
         wait(for: [promise], timeout: 1.0)
-        
         let anchor = session.anchors.first!
         let node = SKSpriteNode(color: .red, size: CGSize(width: 15, height: 15))
+        session.anchorNodes[anchor] = node
         landmarker.view(view, didAdd: node, for: anchor)
+        usleep(10000)
         let landmarkNode = node.children.first!
         
         // When
-        landmarker.view(view, didUpdate: node, for: anchor)
-        
+        landmarker.locationManager(CLLocationManager(), didUpdateLocations: [CLLocation(latitude: startLocation.coordinate.latitude + 0.00005, longitude: startLocation.coordinate.longitude)])
+        usleep(10000)
         // Then
         XCTAssertEqual(landmarkNode.xScale, minViewScale, accuracy: 0.0001, "Incorrectly scaled image")
     }
@@ -113,6 +115,7 @@ class ARLandmarkerDelegateTests: ARLandmarkerLandmarkTests {
         let anchor = session.anchors.first!
         let node = SKSpriteNode(color: .red, size: CGSize(width: 15, height: 15))
         landmarker.view(view, didAdd: node, for: anchor)
+        usleep(10000)
         let landmarkNode = node.children.first!
         
         // When
@@ -188,6 +191,7 @@ class ARLandmarkerDelegateTests: ARLandmarkerLandmarkTests {
         
         session.anchorNodes[session.anchors.first!] = parentNode
         landmarker.view(view, didAdd: parentNode, for: session.anchors.first!)
+        usleep(10000)
         let landmarkNode = parentNode.children.first!
         
         // When
@@ -297,7 +301,7 @@ class ARLandmarkerDelegateTests: ARLandmarkerLandmarkTests {
         landmarker.view(view, didAdd: parentNodes[1], for: session.anchors[1])
         session.anchorNodes[session.anchors[2]] = parentNodes[2]
         landmarker.view(view, didAdd: parentNodes[2], for: session.anchors[2])
-        
+        usleep(10000)
         let landmarkNodes = parentNodes.map({ $0.children.first! })
         
         let didCallCustom = expectation(description: "Did use custom intersection callback")

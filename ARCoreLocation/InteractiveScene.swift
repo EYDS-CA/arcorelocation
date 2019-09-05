@@ -13,6 +13,15 @@ protocol InteractiveSceneDelegate: class {
     func interactiveScene(_ scene: InteractiveScene, hasIntersectingNodes intersecting: [[SKNode]], notIntersecting independents: [SKNode], atGeneration generation: UInt) -> Void
 }
 
+/*
+ TODO:
+ 
+ This class uses a very inefficient and cumbersome algorithm for finding intersecting nodes.
+ A better approach would be to us the SKScene's PhysicsWorld's SKPhysicsContactDelegate.
+ Each landmark can have a physics body, and we can wait for contacts.
+ 
+ */
+
 public class InteractiveScene: SKScene {
     weak var interactionDelegate: InteractiveSceneDelegate?
     private var intersectionTimer: Timer?
@@ -55,7 +64,6 @@ public class InteractiveScene: SKScene {
         let notIntersecting = Set(nodes).subtracting(Set(joinedIntersections.flatMap({ $0 })))
         return (intersecting: joinedIntersections.map({ (nodeSet) -> [SKNode] in nodeSet.map({ $0 }) }), independent: Array(notIntersecting))
     }
-    
     
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         var tappedNodes: [SKNode] = []

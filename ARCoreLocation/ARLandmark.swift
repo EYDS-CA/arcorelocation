@@ -11,8 +11,8 @@ import UIKit
 
 /// A representation of a landmark in an AR World
 public struct ARLandmark {
-    /// The name of this landmark. Landmark names are for convenience, and are never displayed to the user.
-    public let name: String
+    /// The info for this landmark. Landmark userInfo is for convenience, and is never displayed to the user.
+    public let userInfo: [String: Any]
     /// The displayable image
     public let image: UIImage
     /// The real-world location where the landmark is displayed

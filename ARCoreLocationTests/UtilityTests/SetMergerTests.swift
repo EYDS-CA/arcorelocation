@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import ARCoreLocation
 
 class SetMergerTests: XCTestCase {
     

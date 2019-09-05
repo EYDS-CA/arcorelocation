@@ -9,6 +9,7 @@
 import XCTest
 import CoreLocation
 import GLKit
+@testable import ARCoreLocation
 
 class MatrixTests: XCTestCase {
 

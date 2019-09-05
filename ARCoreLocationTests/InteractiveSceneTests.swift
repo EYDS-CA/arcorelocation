@@ -8,6 +8,7 @@
 
 import XCTest
 import SpriteKit
+@testable import ARCoreLocation
 
 class InteractiveSceneTests: XCTestCase {
 

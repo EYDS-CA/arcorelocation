@@ -248,20 +248,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ARCoreLocationExample/Pods-ARCoreLocationExample-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/ARCoreLocation/ARCoreLocation.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ARCoreLocationExample/Pods-ARCoreLocationExample-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARCoreLocation.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ARCoreLocationExample/Pods-ARCoreLocationExample-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ARCoreLocationExample/Pods-ARCoreLocationExample-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ARCoreLocationExample/Pods-ARCoreLocationExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C312F69EF7F00A4057E9BFC2 /* [CP] Check Pods Manifest.lock */ = {

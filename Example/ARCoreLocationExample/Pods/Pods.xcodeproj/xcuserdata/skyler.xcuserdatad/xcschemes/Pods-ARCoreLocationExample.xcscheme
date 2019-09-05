@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1020"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6C4B0D721546DFB17E0127C3AC180145"
+               BlueprintIdentifier = "6D39AE53ED1B90A3265AA850548AC9B8"
                BuildableName = "Pods_ARCoreLocationExample.framework"
                BlueprintName = "Pods-ARCoreLocationExample"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6C4B0D721546DFB17E0127C3AC180145"
+            BlueprintIdentifier = "6D39AE53ED1B90A3265AA850548AC9B8"
             BuildableName = "Pods_ARCoreLocationExample.framework"
             BlueprintName = "Pods-ARCoreLocationExample"
             ReferencedContainer = "container:Pods.xcodeproj">
