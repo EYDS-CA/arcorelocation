@@ -18,6 +18,7 @@ enum ListLandmarks {
             struct Landmark {
                 let name: String
                 let location: CLLocation
+                let details: String?
                 let index: Int
             }
             let landmarks: [Landmark]
@@ -26,8 +27,9 @@ enum ListLandmarks {
         struct ViewModel {
             struct Landmark {
                 let name: String
-                let altitude: String
+//                let altitude: String
                 let location: CLLocation
+                let details: String?
                 let index: Int
             }
             let landmarks: [Landmark]

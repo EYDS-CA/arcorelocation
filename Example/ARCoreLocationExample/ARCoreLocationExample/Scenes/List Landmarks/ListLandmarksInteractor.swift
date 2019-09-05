@@ -18,30 +18,38 @@ protocol ListLandmarksPresentationPreparer {
 class ListLandmarksInteractor {
     var presenter: ListLandmarksPresentationPreparer?
     
-    var mountains: [Mountain] = []
+    var places: [VictoriaLandmark] = []
 }
 
 extension ListLandmarksInteractor: ListLandmarksRequestable {
     func fetchLandmarks(request: ListLandmarks.FetchLandmarks.Request) {
-        mountains = SimpleData_Mountains.mountains
-        let landmarks = mountains.enumerated().map({ $1.landmark(withIndex: $0) })
+        places = VictoriaData_Landmarks.landmarks
+        let landmarks = places.enumerated().map({ $1.landmark(withIndex: $0) })
         presenter?.presentLandmarks(response: ListLandmarks.FetchLandmarks.Response(landmarks: landmarks))
     }
 }
 
 extension ListLandmarksInteractor: ListLandmarksDataStorer {
-    func mountain(forIndex index: Int) -> Mountain? {
-        guard mountains.indices.contains(index) else {
+    func place(forIndex index: Int) -> VictoriaLandmark? {
+        guard places.indices.contains(index) else {
             return nil
         }
-        return mountains[index]
+        return places[index]
     }
 }
 
-fileprivate extension Mountain {
+//fileprivate extension Mountain {
+//    func landmark(withIndex index: Int) -> Landmark {
+//        let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+//                                  altitude: altitude, horizontalAccuracy: 1, verticalAccuracy: 1, timestamp: Date())
+//        return Landmark(name: name, location: location, index: index)
+//    }
+//}
+
+fileprivate extension VictoriaLandmark {
     func landmark(withIndex index: Int) -> Landmark {
         let location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-                                  altitude: altitude, horizontalAccuracy: 1, verticalAccuracy: 1, timestamp: Date())
-        return Landmark(name: name, location: location, index: index)
+                                  altitude: 0, horizontalAccuracy: 1, verticalAccuracy: 1, timestamp: Date())
+        return Landmark(name: name, location: location, details: details, index: index)
     }
 }

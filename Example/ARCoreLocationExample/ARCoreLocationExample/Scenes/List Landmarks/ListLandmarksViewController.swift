@@ -25,12 +25,13 @@ class ListLandmarksViewController: UIViewController {
     var landmarker: ARLandmarker!
     
     // MARK: View lifecycle
+    var reusableMarker = ListLandmarksItem.fromNib()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Configure Landmarker
         landmarker.delegate = self
-        landmarker.maximumVisibleDistance = 30_000_000 // Only show landmarks within 30,000km from user.
+        landmarker.maximumVisibleDistance = 100 // Only show landmarks within 100m from user.
         
         // The landmarker can scale views so that closer ones appear larger than further ones. This scaling is linear
         // from 0 to `maxViewScaleDistance`.
@@ -38,7 +39,7 @@ class ListLandmarksViewController: UIViewController {
         // appears at a scale of `0.75`. A landmark 1000 meters or more away appears at a scale of `0.5`. A landmark
         // 0 meters away appears full scale (`1.0`).
         landmarker.minViewScale = 0.5 // Shrink distant landmark views to half size
-        landmarker.maxViewScaleDistance = 5_000_000 // Show landmarks 5,000km or further at the smallest size
+        landmarker.maxViewScaleDistance = 75 // Show landmarks 75m or further at the smallest size
         
         landmarker.worldRecenteringThreshold = 30 // Recalculate the landmarks whenever the user moves 30 meters.
         landmarker.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation // You'll usually want the best accuracy you can get.
@@ -47,7 +48,7 @@ class ListLandmarksViewController: UIViewController {
         // ones (`.showNearest`). If landmark views overlap, `.showNearest` will hide the landmarks that are further
         // away.
         landmarker.overlappingLandmarksStrategy = .showAll
-        landmarker.beginEvaluatingOverlappingLandmarks(atInterval: 1.0) // Set how often to check for overlapping landmarks.
+//        landmarker.beginEvaluatingOverlappingLandmarks(atInterval: 1.0) // Set how often to check for overlapping landmarks.
         
         view.addSubview(landmarker.view)
         
@@ -70,9 +71,11 @@ class ListLandmarksViewController: UIViewController {
 extension ListLandmarksViewController: ListLandmarksDisplayer {
     func displayLandmarks(viewModel: ListLandmarks.FetchLandmarks.ViewModel) {
         for landmark in viewModel.landmarks {
-            let markView = ListLandmarksItem.fromNib()
-            markView.set(name: landmark.name, altitude: landmark.altitude)
-            landmarker.addLandmark(name: "\(landmark.index)", view: markView, at: landmark.location, completion: nil)
+            let user = landmarker.locationManager.location!
+            let markView = reusableMarker
+            let location = CLLocation(coordinate: landmark.location.coordinate, altitude: user.altitude + 5, horizontalAccuracy: 1, verticalAccuracy: 1, timestamp: Date())
+            markView.set(name: landmark.name)
+            landmarker.addLandmark(name: "\(landmark.index)", view: markView, at: location, completion: nil)
         }
     }
 }
@@ -83,6 +86,12 @@ extension ListLandmarksViewController: ARLandmarkerDelegate {
             return
         }
         router?.showLandmark(withIndex: index)
+    }
+    
+    func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, willUpdate landmark: ARLandmark) -> UIView? {
+        let markView = reusableMarker
+        markView.set(name: "\(landmark.name) updated")
+        return markView
     }
     
     func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didFailWithError error: Error) {

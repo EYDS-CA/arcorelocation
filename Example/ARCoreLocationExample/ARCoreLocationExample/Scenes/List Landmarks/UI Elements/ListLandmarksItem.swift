@@ -10,23 +10,23 @@ import UIKit
 
 class ListLandmarksItem: UIView {
     @IBOutlet weak private var nameLabel: UILabel!
-    @IBOutlet weak private var altitudeLabel: UILabel!
+    @IBOutlet weak var pinView: UIView!
+    @IBOutlet weak var pinEnd: UIView!
     
     static func fromNib() -> ListLandmarksItem {
         let view = Bundle.main.loadNibNamed(String(describing: self), owner: nil, options: nil)!.first as! ListLandmarksItem
-        view.frame.size = CGSize(width: 340, height: 80)
+        view.frame.size = CGSize(width: 340, height: 100)
         return view
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        layer.cornerRadius = 12
-        backgroundColor = UIColor.white.withAlphaComponent(0.85)
+        pinView.layer.cornerRadius = 12
+        pinEnd.layer.cornerRadius = pinEnd.frame.width / 2
     }
     
-    func set(name: String, altitude: String) {
+    func set(name: String) {
         nameLabel.text = name
-        altitudeLabel.text = altitude
         layoutIfNeeded()
     }
 }

@@ -19,8 +19,7 @@ class ListLandmarksPresenter {
 extension ListLandmarksPresenter: ListLandmarksPresentationPreparer {
     func presentLandmarks(response: ListLandmarks.FetchLandmarks.Response) {
         typealias Landmark = ListLandmarks.FetchLandmarks.ViewModel.Landmark
-        let landmarks = response.landmarks.map({ Landmark(name: $0.name, altitude: "\($0.location.altitude)m",
-            location: $0.location, index: $0.index) })
+        let landmarks = response.landmarks.map({ Landmark(name: $0.name, location: $0.location, details: $0.details, index: $0.index) })
         displayer?.displayLandmarks(viewModel: ListLandmarks.FetchLandmarks.ViewModel(landmarks: landmarks))
     }
 }

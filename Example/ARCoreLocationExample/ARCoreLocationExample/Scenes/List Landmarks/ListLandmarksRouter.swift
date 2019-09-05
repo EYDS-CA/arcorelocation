@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ListLandmarksDataStorer {
-    func mountain(forIndex index: Int) -> Mountain?
+    func place(forIndex index: Int) -> VictoriaLandmark?
 }
 
 class ListLandmarksRouter {
@@ -19,13 +19,11 @@ class ListLandmarksRouter {
 
 extension ListLandmarksRouter: ListLandmarksRouteRequestable {
     func showLandmark(withIndex index: Int) {
-        guard let mountain = dataStore?.mountain(forIndex: index) else {
+        guard let place = dataStore?.place(forIndex: index), let details = place.details else {
             return
         }
-        let alert  = UIAlertController(title: nil, message: "That's \(mountain.name)", preferredStyle: .alert)
+        let alert = UIAlertController(title: place.name, message: details, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
         viewController?.present(alert, animated: true, completion: nil)
-        Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { _ in
-            alert.dismiss(animated: true, completion: nil)
-        }
     }
 }
