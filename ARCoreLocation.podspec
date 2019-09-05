@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios
   s.ios.deployment_target = '11.0'
   s.name         = "ARCoreLocation"
-  s.version      = "0.1.8"
+  s.version      = "0.1.9"
   s.summary      = "Place AR landmarks on real-world locations."
 
   s.description  = <<-DESC
@@ -26,6 +26,6 @@ Pod::Spec.new do |s|
 
   s.frameworks = "UIKit", "ARKit", "CoreLocation", "GLKit"
 
-  s.swift_version = "4.2"
+  s.swift_version = "5.0"
 
 end
