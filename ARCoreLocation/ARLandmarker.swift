@@ -247,6 +247,11 @@ extension ARLandmarker {
             let maximumAnchorDistance = self?.maximumAnchorDistance ?? 75
             // Calculate the displacement
             let distance = location.distance(from: landmark)
+            
+            // TODO: Make so landmarks further than maximumAnchorDistance away don't all get projected to maximumAnchorDistance.
+            // May be possible to add a buffer zone between a real projection area and maximumAnchorDistance, and use that buffer to set the landmarks at varying distances.
+            // It probably wouldn't be a perfect solution, but it would likely be better.
+            
             let distanceTransform = simd_float4x4.translatingIdentity(x: 0, y: 0, z: -Float(min(distance, maximumAnchorDistance)))
             // Calculate the horizontal rotation
             let rotation = Matrix.angle(from: location, to: landmark)
@@ -280,7 +285,7 @@ extension ARLandmarker: ARSKViewDelegate {
     
     fileprivate func updateLandmarkNode(_ landmarkNode: SKSpriteNode, with landmark: ARLandmark, parent: SKNode, location: CLLocation?) {
         let distance = location?.distance(from: landmark.location) ?? 0
-        parent.zPosition = CGFloat(1.0 / distance)
+        parent.zPosition = CGFloat(1.0 / distance) // TODO: This doesn't seem to do anything. ARSKView just shows closer nodes in front of further nodes.
         let scaleRange = 1 - minViewScale
         let distanceRatio = CGFloat(max(maxViewScaleDistance - distance, 0.0) / maxViewScaleDistance)
         let scale = ((distanceRatio * scaleRange) + minViewScale) // * arKitInverseScale
@@ -289,6 +294,7 @@ extension ARLandmarker: ARSKViewDelegate {
             landmarkNode.isHidden = true
             //            landmarkNode.physicsBody?.categoryBitMask = 0
         } else {
+            landmarkNode.isHidden = false
             //            landmarkNode.physicsBody?.categoryBitMask = 0x00000001
         }
     }
