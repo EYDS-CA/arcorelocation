@@ -12,10 +12,10 @@ import CoreLocation
 // Convenience object for performing matrix math
 struct Matrix {
     static func convert(glkMatrix matrix: GLKMatrix4) -> float4x4 {
-        return float4x4(float4(matrix.m00, matrix.m01, matrix.m02, matrix.m03),
-                        float4(matrix.m10, matrix.m11, matrix.m12, matrix.m13),
-                        float4(matrix.m20, matrix.m21, matrix.m22, matrix.m23),
-                        float4(matrix.m30, matrix.m31, matrix.m32, matrix.m33))
+        return float4x4(SIMD4(matrix.m00, matrix.m01, matrix.m02, matrix.m03),
+                        SIMD4(matrix.m10, matrix.m11, matrix.m12, matrix.m13),
+                        SIMD4(matrix.m20, matrix.m21, matrix.m22, matrix.m23),
+                        SIMD4(matrix.m30, matrix.m31, matrix.m32, matrix.m33))
     }
     
     /// - parameter radians: Angle relative to 'foward-looking' X axis, with right being the positive direction
