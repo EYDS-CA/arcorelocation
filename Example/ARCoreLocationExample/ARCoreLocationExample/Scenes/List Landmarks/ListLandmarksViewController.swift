@@ -56,9 +56,6 @@ class ListLandmarksViewController: UIViewController {
 //        landmarker.beginEvaluatingOverlappingLandmarks(atInterval: 1.0) // Set how often to check for overlapping landmarks.
         
         view.addSubview(landmarker.view)
-        
-        // Using a VIP cycle here. The interactor will get the landmark data, and `displayLandmarks` will be called when the data is ready.
-        interactor?.fetchLandmarks(request: ListLandmarks.FetchLandmarks.Request())
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,6 +87,12 @@ extension ListLandmarksViewController: ListLandmarksDisplayer {
 }
 
 extension ListLandmarksViewController: ARLandmarkerDelegate {
+    
+    func landmarkDisplayerIsReady() {
+        // Using a VIP cycle here. The interactor will get the landmark data, and `displayLandmarks` will be called when the data is ready.
+        interactor?.fetchLandmarks(request: ListLandmarks.FetchLandmarks.Request())
+    }
+    
     func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didTap landmark: ARLandmark) {
         guard let index = landmark.model?.index else {
             return

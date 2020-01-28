@@ -10,6 +10,10 @@ import ARKit
 import CoreLocation
 
 public protocol ARLandmarkerDelegate: class {
+    /// Called as soon as the `ARLandmarker` is prepared to display AR content.
+    /// - Note: Mostly, this means that location and camera permissions have been granted.
+    func landmarkDisplayerIsReady() -> Void
+    
     /// Called when the user taps an ARLandmark
     func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didTap landmark: ARLandmark) -> Void
     
@@ -78,6 +82,9 @@ public class ARLandmarker: NSObject {
     public var minimumDistanceBetweenLandmarkViewUpdates: CLLocationDistance = 0
     private var lastLandmarkViewUpdateLocation: CLLocation?
     
+    /// The maximum uncertainty on a new location in order to recenter the world origin.
+    public var maximumWorldRecenteringLocationUncertainty: CLLocationAccuracy = .greatestFiniteMagnitude
+    
     /// The view containing all the AR content. Should be added as a subview to some visible viewController.
     public let view: ARSKView
     
@@ -104,6 +111,9 @@ public class ARLandmarker: NSObject {
     private var landmarks: [ARAnchor: ARLandmark] = [:]
     private var pendingLandmarkRequests: [(userInfo: [String: Any], image: UIImage, location: CLLocation, completion: LandmarkCallback?)] = []
     
+    /// Whether or not the landmarker has finished prepping (requesting permissions, etc.).
+    private var isPreparedToShowLandmarks = false
+    
     /// - parameter view: A view in which to present the scene
     /// - parameter scene: A scene in which to show the AR content
     /// - parameter locationManager: A configured CLLocationManager
@@ -114,8 +124,8 @@ public class ARLandmarker: NSObject {
         super.init()
         setupView()
         configureLocationManager()
-//        view.showsPhysics = true
-//        view.showsFPS = true
+        //        view.showsPhysics = true
+        //        view.showsFPS = true
         scene.physicsWorld.contactDelegate = self
         scene.physicsWorld.gravity = .zero
     }
@@ -195,23 +205,33 @@ extension ARLandmarker {
     
     private func updateWorldOrigin(_ origin: CLLocation) {
         captureDeviceAuthorizer.requestAccess(for: .video) { [weak self] (granted) in
-            guard granted else {
-                return
-            }
             DispatchQueue.main.async {
-                let landmarksCopy = self?.landmarks.values.map({ $0 }) ?? []
-                self?.removeAllLandmarks()
+                // This method should do nothing if `self` doesn't exist.
+                guard let `self` = self else {
+                    return
+                }
+                guard granted else {
+                    self.delegate?.landmarkDisplayer(self, didFailWithError: AVError(.applicationIsNotAuthorizedToUseDevice))
+                    return
+                }
+                if !self.isPreparedToShowLandmarks {
+                    self.isPreparedToShowLandmarks = true
+                    self.delegate?.landmarkDisplayerIsReady()
+                }
+                
+                let landmarksCopy = self.landmarks.values.map({ $0 })
+                self.removeAllLandmarks()
                 
                 // Move the AR World origin
                 let configuration = ARWorldTrackingConfiguration()
                 configuration.worldAlignment = .gravityAndHeading
-                self?.view.session.run(configuration, options: [.resetTracking])
-                self?.worldOrigin = origin
+                self.view.session.run(configuration, options: [.resetTracking])
+                self.worldOrigin = origin
                 
                 // Replace all the landmarks
-                self?.addPendingLandmarks()
+                self.addPendingLandmarks()
                 landmarksCopy.forEach({ (landmark) in
-                    self?.createLandmark(userInfo: landmark.userInfo, image: landmark.image, at: landmark.location, completion: nil)
+                    self.createLandmark(userInfo: landmark.userInfo, image: landmark.image, at: landmark.location, completion: nil)
                 })
             }
         }
@@ -268,15 +288,15 @@ extension ARLandmarker: ARSKViewDelegate {
             }
             let landmarkNode = SKSpriteNode(texture: SKTexture(image: landmark.image))
             landmarkNode.name = landmark.id.uuidString
-            self?.updateLandmarkNode(landmarkNode, with: landmark, parent: node)
-//            landmarkNode.physicsBody = SKPhysicsBody(circleOfRadius: 100)
-//            landmarkNode.physicsBody?.categoryBitMask = 0x00000001
+            self?.updateLandmarkNode(landmarkNode, with: landmark, parent: node, location: self?.locationManager.location)
+            //            landmarkNode.physicsBody = SKPhysicsBody(circleOfRadius: 100)
+            //            landmarkNode.physicsBody?.categoryBitMask = 0x00000001
             node.addChild(landmarkNode)
         }
     }
     
-    fileprivate func updateLandmarkNode(_ landmarkNode: SKSpriteNode, with landmark: ARLandmark, parent: SKNode) {
-        let distance = locationManager.location?.distance(from: landmark.location) ?? 0
+    fileprivate func updateLandmarkNode(_ landmarkNode: SKSpriteNode, with landmark: ARLandmark, parent: SKNode, location: CLLocation?) {
+        let distance = location?.distance(from: landmark.location) ?? 0
         parent.zPosition = CGFloat(1.0 / distance)
         let scaleRange = 1 - minViewScale
         let distanceRatio = CGFloat(max(maxViewScaleDistance - distance, 0.0) / maxViewScaleDistance)
@@ -284,9 +304,9 @@ extension ARLandmarker: ARSKViewDelegate {
         landmarkNode.setScale(scale)
         if distance < minumumVisibleDistance || distance > maximumVisibleDistance {
             landmarkNode.isHidden = true
-//            landmarkNode.physicsBody?.categoryBitMask = 0
+            //            landmarkNode.physicsBody?.categoryBitMask = 0
         } else {
-//            landmarkNode.physicsBody?.categoryBitMask = 0x00000001
+            //            landmarkNode.physicsBody?.categoryBitMask = 0x00000001
         }
     }
     
@@ -297,13 +317,11 @@ extension ARLandmarker: ARSKViewDelegate {
 
 extension ARLandmarker: CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("Got locations")
         if let location = locations.last {
             updateAnchorNodes(with: location)
         }
-        if let location = locations.filter({ $0.horizontalAccuracy <= 400 }).last {
-            print("Got good location")
-            if worldOrigin == nil || abs(worldOrigin!.distance(from: location)) > worldRecenteringThreshold || scene.children.count != currentLandmarks.count {
+        if let location = locations.filter({ $0.horizontalAccuracy <= maximumWorldRecenteringLocationUncertainty }).last {
+            if worldOrigin == nil || abs(worldOrigin!.distance(from: location)) > worldRecenteringThreshold {
                 updateWorldOrigin(location)
             }
         }
@@ -313,9 +331,9 @@ extension ARLandmarker: CLLocationManagerDelegate {
         for (anchor, landmark) in landmarks {
             guard let node = view.node(for: anchor),
                 let landmarkNode = node.childNode(withName: anchor.identifier.uuidString) as? SKSpriteNode else {
-                return
+                    return
             }
-            updateLandmarkNode(landmarkNode, with: landmark, parent: node)
+            updateLandmarkNode(landmarkNode, with: landmark, parent: node, location: location)
             
             if lastLandmarkViewUpdateLocation?.distance(from: location) ?? .greatestFiniteMagnitude > minimumDistanceBetweenLandmarkViewUpdates {
                 var image: UIImage?

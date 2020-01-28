@@ -273,6 +273,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
 			productRefGroup = 8C1DD5A75B4A3CDA210BCD30EA5E4D20 /* Products */;
@@ -339,6 +340,43 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0099717E74F42140041C2B3180D2471F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B3EC4BF66F28CA82697D558AC5CE69CB /* ARCoreLocation.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/ARCoreLocation/ARCoreLocation-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ARCoreLocation/ARCoreLocation-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/ARCoreLocation/ARCoreLocation.modulemap";
+				PRODUCT_MODULE_NAME = ARCoreLocation;
+				PRODUCT_NAME = ARCoreLocation;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		00EC5F60B08274CA8F47AEDA1D342E99 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -399,43 +437,6 @@
 			};
 			name = Release;
 		};
-		256C313D4702268F32BDF0E944EBCEFC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3EC4BF66F28CA82697D558AC5CE69CB /* ARCoreLocation.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/ARCoreLocation/ARCoreLocation-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/ARCoreLocation/ARCoreLocation-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/ARCoreLocation/ARCoreLocation.modulemap";
-				PRODUCT_MODULE_NAME = ARCoreLocation;
-				PRODUCT_NAME = ARCoreLocation;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		2B6220847E116E43C5044D03D61D32DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D478CDD0F72151A0B50B68B37978BEB1 /* Pods-ARCoreLocationExample.release.xcconfig */;
@@ -475,42 +476,6 @@
 			};
 			name = Release;
 		};
-		419D9DE025DD57E64639C5E1CC8313BC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B3EC4BF66F28CA82697D558AC5CE69CB /* ARCoreLocation.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/ARCoreLocation/ARCoreLocation-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/ARCoreLocation/ARCoreLocation-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/ARCoreLocation/ARCoreLocation.modulemap";
-				PRODUCT_MODULE_NAME = ARCoreLocation;
-				PRODUCT_NAME = ARCoreLocation;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		6276EF4823DDF7304EC2A17369B1046A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CD2467285588D2C6BF91639002575544 /* Pods-ARCoreLocationExample.debug.xcconfig */;
@@ -543,6 +508,42 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		6B907BE513FD80D6F06DCBFDC3CD7AB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B3EC4BF66F28CA82697D558AC5CE69CB /* ARCoreLocation.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/ARCoreLocation/ARCoreLocation-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ARCoreLocation/ARCoreLocation-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/ARCoreLocation/ARCoreLocation.modulemap";
+				PRODUCT_MODULE_NAME = ARCoreLocation;
+				PRODUCT_NAME = ARCoreLocation;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -637,8 +638,8 @@
 		BFEF40F51EF57E96DDEE91E667998BA0 /* Build configuration list for PBXNativeTarget "ARCoreLocation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				419D9DE025DD57E64639C5E1CC8313BC /* Debug */,
-				256C313D4702268F32BDF0E944EBCEFC /* Release */,
+				6B907BE513FD80D6F06DCBFDC3CD7AB4 /* Debug */,
+				0099717E74F42140041C2B3180D2471F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -10,6 +10,10 @@ import ARKit
 import CoreLocation
 
 public protocol ARLandmarkerDelegate: class {
+    /// Called as soon as the `ARLandmarker` is prepared to display AR content.
+    /// - Note: Mostly, this means that location and camera permissions have been granted.
+    func landmarkDisplayerIsReady() -> Void
+    
     /// Called when the user taps an ARLandmark
     func landmarkDisplayer(_ landmarkDisplayer: ARLandmarker, didTap landmark: ARLandmark) -> Void
     
@@ -107,6 +111,9 @@ public class ARLandmarker: NSObject {
     private var landmarks: [ARAnchor: ARLandmark] = [:]
     private var pendingLandmarkRequests: [(userInfo: [String: Any], image: UIImage, location: CLLocation, completion: LandmarkCallback?)] = []
     
+    /// Whether or not the landmarker has finished prepping (requesting permissions, etc.).
+    private var isPreparedToShowLandmarks = false
+    
     /// - parameter view: A view in which to present the scene
     /// - parameter scene: A scene in which to show the AR content
     /// - parameter locationManager: A configured CLLocationManager
@@ -198,23 +205,33 @@ extension ARLandmarker {
     
     private func updateWorldOrigin(_ origin: CLLocation) {
         captureDeviceAuthorizer.requestAccess(for: .video) { [weak self] (granted) in
-            guard granted else {
-                return
-            }
             DispatchQueue.main.async {
-                let landmarksCopy = self?.landmarks.values.map({ $0 }) ?? []
-                self?.removeAllLandmarks()
+                // This method should do nothing if `self` doesn't exist.
+                guard let `self` = self else {
+                    return
+                }
+                guard granted else {
+                    self.delegate?.landmarkDisplayer(self, didFailWithError: AVError(.applicationIsNotAuthorizedToUseDevice))
+                    return
+                }
+                if !self.isPreparedToShowLandmarks {
+                    self.isPreparedToShowLandmarks = true
+                    self.delegate?.landmarkDisplayerIsReady()
+                }
+                
+                let landmarksCopy = self.landmarks.values.map({ $0 })
+                self.removeAllLandmarks()
                 
                 // Move the AR World origin
                 let configuration = ARWorldTrackingConfiguration()
                 configuration.worldAlignment = .gravityAndHeading
-                self?.view.session.run(configuration, options: [.resetTracking])
-                self?.worldOrigin = origin
+                self.view.session.run(configuration, options: [.resetTracking])
+                self.worldOrigin = origin
                 
                 // Replace all the landmarks
-                self?.addPendingLandmarks()
+                self.addPendingLandmarks()
                 landmarksCopy.forEach({ (landmark) in
-                    self?.createLandmark(userInfo: landmark.userInfo, image: landmark.image, at: landmark.location, completion: nil)
+                    self.createLandmark(userInfo: landmark.userInfo, image: landmark.image, at: landmark.location, completion: nil)
                 })
             }
         }

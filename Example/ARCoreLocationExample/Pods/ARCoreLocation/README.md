@@ -17,7 +17,7 @@ ARCoreLocation is a lightweight and configurable iOS framework for displaying AR
 ### CocoaPods
 Enter this in your Podfile:
 ```
-pod 'ARCoreLocation', '~> 0.1.7'
+pod 'ARCoreLocation', '~> 0.1.9'
 ```
 Then run `pod install`. Remember to `import ARCoreLocation` in any file where you want to use it!
 
